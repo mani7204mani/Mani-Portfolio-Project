@@ -15,7 +15,7 @@ function Header() {
     <header className="header-bar">
       <div className="header-content">
         <div className="logo">
-          <a href="#hero" onClick={closeMenu}>Mani Reddy<span className="accent-dot">.</span></a>
+          <a href="#hero" onClick={closeMenu}>Mani Reddy's Portfolio<span className="accent-dot">.</span></a>
         </div>
 
         {/* 💡 1. HAMBURGER BUTTON - SHOWN ON MOBILE 💡 */}
