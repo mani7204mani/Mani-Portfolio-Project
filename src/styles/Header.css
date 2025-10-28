@@ -79,11 +79,65 @@
   transform: translateY(-1px); /* Subtle lift for the text */
 }
 
-/* Responsive: collapse nav on small screens (replace with your mobile menu implementation) */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none; /* hide links on small screens; show a hamburger instead if needed */
-  }
+.menu-toggle {
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001; /* Must be high to click over the header */
+    padding: 5px;
+    color: var(--primary-color); 
 }
 
-/* ...existing code... */
+@media (max-width: 768px) {
+    /* 1. SHOW THE TOGGLE BUTTON */
+    .menu-toggle {
+        display: block; 
+    }
+    
+    /* 2. MENU LINKS (Hidden and Full-Screen) */
+    .nav-links {
+        /* CRITICAL: HIDES THE LINKS ON MOBILE */
+        display: flex; /* Kept flex so we can change direction */
+        
+        /* Positioning */
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%; 
+        height: 100%; /* Full screen */
+        
+        /* Layout */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white; 
+        
+        z-index: 1000;
+        
+        /* Animation: Slide menu off-screen initially */
+        transform: translateX(100%); 
+        transition: transform 0.3s ease-out;
+    }
+
+    /* 3. MENU OPEN STATE */
+    .nav-links.open {
+        /* Slide menu into view */
+        transform: translateX(0); 
+    }
+    
+    /* 4. Mobile Link Appearance */
+    .nav-links a {
+        padding: 15px 0;
+        font-size: 1.5rem;
+        width: 80%; /* Make links easier to tap */
+        text-align: center;
+        border-bottom: 1px solid #eee; /* Add separator line */
+    }
+    
+    /* Remove the underline effect on mobile links for cleanliness */
+    .nav-links a:not(.btn-primary)::after {
+        content: none;
+    }
+}
