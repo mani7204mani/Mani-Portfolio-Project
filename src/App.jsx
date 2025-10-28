@@ -91,6 +91,7 @@ const skillData = [
   { name: "JavaScript", image: "javascript.svg" },
   { name: "Azure", image: "azure.svg" },
   { name: ".NET", image: "dotnet.svg" },
+  { name: "Git", image: "git.svg" },
   // Add more skills to match the 10 boxes in your image
 ];
 
