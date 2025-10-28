@@ -1,0 +1,55 @@
+/* src/styles/EducationCard.css */
+
+.education-card {
+  /* Box structure */
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 30px;
+  
+  /* Visuals */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Text styling */
+  text-align: left;
+  line-height: 1.5;
+  height: 100%; /* Important: ensures all cards are the same height in the grid */
+}
+
+.education-card:hover {
+  transform: translateY(-4px); /* Subtle lift on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.degree-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.institution {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.details {
+  font-size: 1rem;
+  color: #777;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .education-card {
+  background-color: #222222;
+  border-color: #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+body.dark-mode .institution {
+  color: #bbbbbb;
+}
+body.dark-mode .details {
+  color: #999999;
+}

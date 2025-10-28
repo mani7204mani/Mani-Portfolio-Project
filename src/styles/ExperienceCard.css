@@ -1,0 +1,80 @@
+/* src/styles/ExperienceCard.css */
+
+.experience-grid {
+    display: grid;
+    /* 💡 CHANGE THIS LINE 💡 */
+    grid-template-columns: 1fr; /* Sets the layout to ONE column, forcing items to stack */
+    /* ---------------------- */
+    
+    gap: 30px;
+    max-width: 1450px; /* Optional: You might want to constrain the width for readability */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.experience-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 💡 BLACK HOVER EFFECT 💡 */
+.experience-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0; /* Start invisible */
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.experience-card:hover::before {
+    opacity: 1; /* Fade to black on hover */
+}
+
+/* Ensure text is above the black overlay */
+.experience-card * {
+    position: relative;
+    z-index: 2; 
+    transition: color 0.3s ease;
+}
+
+/* Change text color to white on hover */
+.experience-card:hover .card-title,
+.experience-card:hover .card-duration,
+.experience-card:hover .card-summary,
+.experience-card:hover .details-link {
+    color: white !important;
+}
+
+/* Text styles */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+.card-duration {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #555;
+}
+.card-summary {
+    color: #777;
+    margin-bottom: 20px;
+}
+.details-link {
+    font-weight: 600;
+    color: var(--accent-color); /* Use your accent color */
+    align-self: flex-end;
+}

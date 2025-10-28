@@ -1,0 +1,89 @@
+/* ...existing code... */
+
+/* Header wrapper spans the full device width (background, sticky, shadow) */
+.header-bar {
+  width: 100%;
+  padding: 20px 0;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Centered inner content: logo left, nav right.
+   Keeps header background full-width while constraining content. */
+.header-content {
+  width: 100%;
+  max-width: var(--max-width, 1200px); /* change var if you have different max */
+  margin: 0 auto;                        /* center the inner container */
+  padding: 0 10px;                       /* horizontal breathing room */
+
+  display: flex;
+  justify-content: space-between;        /* logo left, nav right */
+  align-items: center;
+}
+
+/* --- Logo Styling --- */
+.logo a {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.accent-dot {
+  color: var(--accent-color);
+}
+
+/* --- Navigation Links Styling --- */
+.nav-links {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.nav-links a:not(.btn-primary) {
+  font-size: 1rem;
+  color: var(--primary-color);
+  opacity: 0.8;
+  position: relative; /* <--- THIS IS THE MISSING BASE STYLE */
+  transition: all 0.3s ease;
+}
+
+/* 1. Create the invisible underline */
+.nav-links a:not(.btn-primary)::after {
+  content: '';
+  position: absolute;
+  width: 0; /* Starts with zero width */
+  height: 2px;
+  bottom: -5px; /* Position it slightly below the text */
+  left: 0;
+  background-color: var(--accent-color); /* Use your theme's accent color */
+  transition: width 0.3s ease-out, transform 0.3s ease-out; /* Animate the width */
+}
+
+/* 2. Animate the underline on hover */
+.nav-links a:hover:not(.btn-primary)::after {
+  width: 100%; /* Expands to full width on hover */
+  /* If you want the line to start from the center and expand out:
+     left: 50%;
+     transform: translateX(-50%) scaleX(1); */
+}
+
+/* Enhance existing hover styles */
+.nav-links a:hover:not(.btn-primary) {
+  opacity: 1;
+  color: var(--primary-color); /* Keep it readable */
+  transform: translateY(-1px); /* Subtle lift for the text */
+}
+
+/* Responsive: collapse nav on small screens (replace with your mobile menu implementation) */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* hide links on small screens; show a hamburger instead if needed */
+  }
+}
+
+/* ...existing code... */

@@ -1,0 +1,35 @@
+/* src/styles/FloatingChatButton.css */
+
+.floating-chat-btn {
+  /* CRITICAL: Fixed Position */
+  position: fixed;
+  bottom: 25px; 
+  right: 25px; 
+  z-index: 10000; /* High z-index */
+  
+  /* Appearance and Styling (can use your accent color) */
+  background-color: var(--accent-color); 
+  color: white;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px; 
+  height: 55px;
+  border-radius: 50%; 
+  border: none;
+  cursor: pointer;
+  
+  font-size: 24px; /* Size for the emoji/icon */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.floating-chat-btn:hover {
+  transform: scale(1.05);
+}
+
+.close-x {
+    font-size: 30px;
+    line-height: 1;
+}

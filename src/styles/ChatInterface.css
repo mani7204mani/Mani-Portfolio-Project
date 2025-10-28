@@ -1,0 +1,166 @@
+/* src/styles/ChatInterface.css */
+
+.chat-box {
+    position: fixed;
+    bottom: 90px; /* Position above the floating button */
+    right: 25px;
+    width: 350px;
+    height: 450px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    /* Animation for opening/closing */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: bottom right;
+}
+
+.chat-box.closed {
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none; /* Disables interaction when closed */
+}
+
+/* Header Styling */
+.chat-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.chat-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Body Styling */
+.chat-body {
+    padding: 20px 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.chat-body p {
+    margin: 0;
+    color: var(--primary-color);
+    line-height: 1.4;
+}
+
+/* Button/Link Styles */
+.chat-body button, .chat-btn-link {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    background-color: white;
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.chat-body button:hover, .chat-btn-link:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.chat-btn-back {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    color: #555;
+}
+.chat-btn-back:hover {
+    background-color: #ddd;
+    color: var(--primary-color);
+}
+/* src/styles/ChatInterface.css (Add this to the end of the file) */
+
+/* User Input Form and Elements */
+.chat-form {
+    display: flex;
+    gap: 5px;
+    margin-top: auto; /* Pushes the form to the bottom of the chat body */
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.chat-input-field {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-submit-btn {
+    padding: 8px 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.chat-submit-btn:hover {
+    background-color: var(--primary-color);
+}
+
+/* Message Styles (to differentiate user/bot) */
+.bot-message {
+    background-color: #f0f0f0;
+    padding: 8px;
+    border-radius: 8px;
+    align-self: flex-start;
+    color: var(--primary-color);
+}
+.user-message {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    align-self: flex-end;
+}
+.bot-response-text {
+    /* For the long about Mani text */
+    background-color: #e6f7ff; /* Light blue background */
+    color: #333;
+    font-style: italic;
+    border-left: 4px solid var(--accent-color);
+}
+
+/* Overrides for Dark Mode */
+body.dark-mode .chat-body {
+    background-color: #333;
+}
+body.dark-mode .bot-message {
+    background-color: #444;
+    color: white;
+}
+body.dark-mode .chat-input-field {
+    background-color: #555;
+    color: white;
+    border-color: #666;
+}
+body.dark-mode .bot-response-text {
+    background-color: #335566;
+    color: white;
+}

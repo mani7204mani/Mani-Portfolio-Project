@@ -1,0 +1,51 @@
+/* src/styles/SkillCard.css */
+
+.skill-card {
+  /* Dimensions of your box */
+  width: 150px; 
+  height: 150px; 
+  padding: 15px;
+  
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  /* Premium Look */
+  background-color: white; /* White box background */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  /* Add subtle shadow for depth */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.skill-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent-color);
+}
+
+.skill-icon-container {
+  /* Makes the icon area slightly bigger */
+  height: 60px;
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+.skill-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image fits without distortion */
+}
+
+.skill-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-top: 5px;
+}

@@ -1,0 +1,101 @@
+/* Import a custom font (e.g., Poppins) in your index.html or main.jsx */
+
+:root {
+  --primary-color: #000000;
+  /* Black */
+  --secondary-color: #f4f4f4;
+  /* Light Gray */
+  --accent-color: #007bff;
+  /* A striking blue for accents */
+  --font-family: 'Poppins', sans-serif;
+  --max-width: 1600px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: color 0.3s ease;
+}
+
+/* Premium Button Look */
+.btn-primary {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  /* Keep the black background, or switch to a very dark gray */
+  background-color: var(--primary-color);
+
+  /* Make the button lift slightly off the page */
+  transform: translateY(-3px);
+
+  /* Use a subtle shadow for a premium 3D effect */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+  /* Optional: Change the border to the accent color if you still want a color hint */
+  border-color: var(--accent-color);
+}
+
+/* Dark Mode adjustment for the button hover */
+body.dark-mode .btn-primary:hover {
+  background-color: var(--accent-color);
+  /* You can keep the accent color here */
+  border-color: var(--accent-color);
+}
+
+body.dark-mode {
+  --primary-color: #f4f4f4;
+  /* Text: Light Gray */
+  --secondary-color: #1a1a1a;
+  /* Background: Dark Gray */
+  --header-bg: #222222;
+  /* Header/Card BG: Slightly lighter dark */
+  --text-color-light: #aaaaaa;
+  /* Subtext/Faded elements */
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+/* Dark Mode Overrides for specific elements */
+body.dark-mode .header-bar {
+  background-color: var(--header-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .project-card,
+body.dark-mode .skill-card {
+  background-color: var(--header-bg);
+  border-color: #333;
+}
+
+body.dark-mode .tagline,
+body.dark-mode .project-card p,
+body.dark-mode .tech-tag {
+  color: var(--text-color-light);
+}
+
+body.dark-mode .btn-primary {
+  background-color: var(--accent-color);
+  color: #1a1a1a;
+  /* Dark text on accent button */
+  border-color: var(--accent-color);
+}

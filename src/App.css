@@ -1,0 +1,189 @@
+/* src/App.css - For main section layout */
+
+.portfolio-container {
+  /* Center content within a max-width */
+  max-width: var(--max-width); 
+  margin: 0 auto;
+}
+
+/* src/App.css */
+
+/* --- Hero Section Styles (REVERTED to STACKED/CENTERED) --- */
+.hero-section {
+    padding: 100px 20px;
+    min-height: 80vh; 
+    
+    /* Enforce stacking and centering */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    text-align: center; /* Center all text content */
+}
+
+/* Ensure the content container is centered and takes up space */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px; /* Optional: Keep the text readable */
+    margin: 0 auto;
+}
+
+/* 💡 NEW CIRCULAR IMAGE STYLING 💡 */
+.hero-profile-img-circle {
+    width: 180px; /* Define size */
+    height: 180px;
+    object-fit: cover; /* Ensures image fills the circle without stretching */
+    border-radius: 50%; /* CRITICAL: Makes the image circular */
+    margin-bottom: 30px; /* Space between image and text */
+    border: 5px solid white; /* Optional: adds a slight white ring effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Ensure Text Styles Are Applied --- */
+.hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+.tagline {
+    font-size: 1.2rem; /* Adjusted for cleaner look */
+    color: #555;
+    margin-bottom: 30px; /* Space between tagline and button */
+}
+.btn-primary.large-btn {
+    margin-top: 5px; /* Adjust spacing above the button */
+    /* If you had other alignment rules here, remove them */
+    align-self: center; /* Ensures it adheres to the flex centering rule */
+}
+
+/* Remove old split-layout specific classes if they exist:
+   .hero-split-content, .hero-image-container, .hero-text-container 
+*/
+
+/* --- Projects Section Styles --- */
+.projects-section {
+  padding: 80px 20px;
+}
+
+.projects-section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+/* src/App.css - Contact Section Styles */
+
+.contact-section {
+  padding: 80px 20px;
+  /* Use Flexbox to manage the layout */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center content (text and button) horizontally */
+  text-align: center;
+}
+
+.contact-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.contact-section p {
+  font-size: 1.2rem;
+  margin-bottom: 40px; /* Add space between text and button */
+  max-width: 600px; /* Optional: keeps text from stretching too wide */
+}
+
+/* 💡 THIS IS THE KEY CHANGE for the button's position 💡 */
+/* We'll make the button align to the right within its centered context */
+.contact-btn {
+  /* Inherits button styles from Global.css */
+  align-self: flex-end; /* Overrides the 'align-items: center' above */
+  margin-right: 20px; /* Push it away from the content edge a little */
+}
+
+/* Add or update the general section-padding class */
+.section-padding {
+  padding: 80px 10px;
+}
+
+/* --- Footer Styles --- */
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid #ddd;
+    color: #888;
+    font-size: 0.9rem;
+}
+footer p {
+    margin: 5px 0;
+}
+.skills-grid-container {
+  /* Centers the grid block itself within the section */
+  display: flex;
+  justify-content: center;
+  
+  /* The actual grid */
+  display: grid;
+  /* Adjust minmax(150px) to match the width of your skill cards */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+  gap: 25px; /* Spacing between the skill boxes */
+  
+  /* Ensure it doesn't stretch beyond the main max-width */
+  max-width: 900px; /* You can adjust this width to control how many boxes fit per row */
+  margin: 0 auto;
+}
+
+/* Optional: Center the heading in the skills section */
+.skills-section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+/* src/App.css (Add to the end of the file) */
+
+/* Education Section Styling */
+.experience-section {
+    padding: 80px 10px; 
+    
+    /* Ensure the wrapper does NOT force left alignment */
+    text-align: initial; /* or remove text-align property if present */ 
+    
+    max-width: 900px; /* Aligns the card block */
+    margin: 0 auto;
+}
+
+.experience-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    
+    /* 💡 CRITICAL CHANGE: Center the heading text 💡 */
+    text-align: center; 
+}
+
+
+/* The Grid for the 3-Column Layout */
+.education-grid {
+  display: grid;
+  /* Creates exactly 3 columns of equal size (1fr) */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 30px; /* Space between the cards */
+  
+  /* Centers the grid block itself and keeps it within the max-width */
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Responsive adjustment for tablets/phones */
+@media (max-width: 900px) {
+    .education-grid {
+        /* On smaller screens, stack them 1 per row for readability */
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
