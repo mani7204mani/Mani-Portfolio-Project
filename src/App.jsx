@@ -60,6 +60,12 @@ const educationData = [
 // Sample data for your projects. Replace this with your actual portfolio items.
 const sampleProjects = [
   {
+    title: "Customer Shopping Behavior Analysis",
+    description: "Analyzed 3,900 customer purchases to uncover key insights into spending patterns, product preferences, and subscription behavior. The project involved data cleaning, feature engineering, structured SQL analysis (PostgreSQL) to answer 10 key business questions, and a final interactive dashboard (Power BI) for visual presentation of findings and strategic business recommendations.",
+    technologies: ["Python", "Pandas", "PostgreSQL", "SQL", "Power Bi"],
+    link: "https://github.com/mani7204mani/Customer-Behavior-Project"
+  },
+  {
     title: "Loan-Data-Approval-EDA",
     description: "This project applies data science methodologies to predict loan approval, covering the entire workflow from generating and cleaning synthetic financial data to visualizing key correlations and preparing features for machine learning.",
     technologies: ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn", "SciPy Stats","Jupyter"],
@@ -77,6 +83,20 @@ const sampleProjects = [
     technologies: ["Streamlit", "Python", "Azure OpenAI", "RAG"," LangChain"],
     link: "https://example.com/chatbot"
   },
+  {
+    "title": "Tourist Management System (TMS)",
+    "description": "A full-stack web application for managing tourist tours, handling user registrations (with email OTP verification), administering destinations (CRUD), processing tour bookings, and providing users with a comprehensive booking history. The system includes separate functionalities for public users and administrative staff.",
+    "technologies": [
+        "Python (Flask)",
+        "React.js (Frontend)",
+        "PostgreSQL (SQLAlchemy)",
+        "Flask-Bcrypt",
+        "Email Verification (SMTP)",
+        "RESTful APIs",
+        "OTP Authentication"
+    ],
+    "link": "https://github.com/mani7204mani/tourist-management-system"
+}
 ];
 const skillData = [
   { name: "Python", image: "python.svg" },
@@ -92,6 +112,7 @@ const skillData = [
   { name: "Azure", image: "azure.svg" },
   { name: ".NET", image: "dotnet.svg" },
   { name: "Git", image: "git.svg" },
+  { name: "Flask", image: "flask.svg" },
   // Add more skills to match the 10 boxes in your image
 ];
 
