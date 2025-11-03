@@ -1,179 +1,258 @@
-// src/components/ChatInterface.jsx
+// src/components/ChatInterface.jsx - WITH SPECIAL RESPONSE HANDLING
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { getChatbotResponse, resetConversation } from '../services/chatService';
 import '../styles/ChatInterface.css';
 
-const CHATBOT_NAME = "Viva";
+function ChatInterface({ isOpen, onClose }) {
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-// ===================================
-// DETAILED CONTENT CONSTANTS
-// ===================================
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-const MANI_ABOUT = "Mani is an innovative software developer skilled in .NET, Python, and Java, with experience building scalable full-stack applications and AI-powered solutions using Azure OpenAI. Mani excels at optimizing backend systems, developing secure cloud applications, and delivering impactful results through Agile collaboration.";
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-const MANI_SKILLS = "Mani has strong expertise in Python, OpenAI, Power BI, SQL, and Excel, along with solid development skills in Java, HTML5, CSS3, JavaScript, and React. Mani is also proficient in building and deploying applications using .NET and Azure, combining both backend and frontend technologies to create powerful, data-driven solutions.";
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([
+        {
+          type: 'bot',
+          content: "Hey! I'm Viva, Mani's friend! 👋 What would you like to know about him?",
+          showQuickActions: true,
+        },
+      ]);
+    }
+  }, [isOpen]);
 
-const MANI_PROJECTS = "Mani has worked on impactful projects including Loan Data Approval EDA, where Mani applied data science techniques for loan prediction using Python, Pandas, NumPy, and Scikit-learn. He also developed a Power BI Dashboard for a Chocolate Factory, creating interactive data visualizations using Power BI, DAX, and Power Query. Additionally, he built an AI-Powered Chatbot Interface, integrating Azure OpenAI, RAG pipelines, and LangChain to deliver intelligent conversational experiences.";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!inputValue.trim() || isLoading) return;
 
-const MANI_EXPERIENCE = "Mani has hands-on experience at Mindsprint, starting as an Intern and later progressing to a Junior Engineer. During his internship, he contributed to the Treasury Bot project, enhancing usability, automating Excel-based workflows, and integrating Azure-backed data pipelines that improved performance and reduced manual effort. As a Junior Engineer, he developed and deployed scalable ASP.NET MVC applications with modular architecture and role-based authentication, while also integrating CLU (Conversational Language Understanding) models to enable intelligent, natural language interactions.";
+    const userMessage = inputValue.trim();
+    setInputValue('');
 
+    setMessages((prev) => [...prev, { type: 'user', content: userMessage }]);
+    setIsLoading(true);
 
-function ChatInterface({ isOpen, toggleChat }) {
-    const [step, setStep] = useState('welcome');
-    const [userInput, setUserInput] = useState('');
-    const [submittedText, setSubmittedText] = useState('');
+    try {
+      const botReply = await getChatbotResponse(userMessage);
+      
+      // Check for special markers and create appropriate message objects
+      if (botReply === '[FULL_ABOUT_MANI]') {
+        setMessages((prev) => [
+          ...prev,
+          { type: 'bot', content: 'aboutMani', isSpecial: true },
+        ]);
+      } else if (botReply === '[RESUME_DOWNLOAD]') {
+        setMessages((prev) => [
+          ...prev,
+          { type: 'bot', content: 'resume', isSpecial: true },
+        ]);
+      } else if (botReply === '[CONTACT_DETAILS]') {
+        setMessages((prev) => [
+          ...prev,
+          { type: 'bot', content: 'contact', isSpecial: true },
+        ]);
+      } else {
+        setMessages((prev) => [...prev, { type: 'bot', content: botReply }]);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessages((prev) => [
+        ...prev,
+        { type: 'bot', content: 'Oops! Something went wrong. Try again? 😅' },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const handleChange = (event) => {
-        setUserInput(event.target.value);
-    };
+  const handleQuickAction = (action) => {
+    setInputValue(action);
+    setTimeout(() => {
+      document.querySelector('.chat-input-field')?.focus();
+    }, 100);
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const normalizedInput = userInput.toLowerCase().trim();
-        setSubmittedText(userInput);
-        setUserInput('');
+  const handleReset = () => {
+    resetConversation();
+    setMessages([
+      {
+        type: 'bot',
+        content: "Hey! I'm Viva, Mani's friend! 👋 What would you like to know about him?",
+        showQuickActions: true,
+      },
+    ]);
+  };
 
-        // Keyword detection logic - Order matters for priority!
-        if (normalizedInput.includes('resume')) {
-            setStep('resume');
-        } else if (normalizedInput.includes('projects') || normalizedInput.includes('project')) {
-            setStep('projects');
-        } else if (normalizedInput.includes('skills') || normalizedInput.includes('skill')) {
-            setStep('skills');
-        } else if (normalizedInput.includes('contact') || normalizedInput.includes('chat')) {
-            setStep('contact');
-
-            // Check for 'experience' keywords first (Higher Priority)
-        } else if (normalizedInput.includes('experience') || normalizedInput.includes('intern') || normalizedInput.includes('engineer')) {
-            setStep('experience');
-
-            // Check for 'about' keywords next (Lower Priority)
-        } else if (normalizedInput.includes('about mani') || normalizedInput.includes('about')) {
-            setStep('about');
-
-        } else {
-            setStep('unknown');
-        }
-    };
-
-    const renderContent = () => {
-        // Helper function to close chat and navigate
-        const handleCloseAndNavigate = () => {
-            setStep('welcome');
-            toggleChat();
-        };
-
-        // Maps for dynamic content rendering
-        const labelMap = {
-            projects: "Mani's Projects",
-            skills: "Mani's Skills",
-            experience: "Mani's Experience",
-            contact: "Contact Mani"
-        };
-        const contentMap = {
-            about: MANI_ABOUT,
-            projects: MANI_PROJECTS,
-            skills: MANI_SKILLS,
-            experience: MANI_EXPERIENCE,
-            contact: "You can find all of Mani's contact methods on the Contact page."
-        };
-
-        // --- MAIN RENDER LOGIC ---
-        switch (step) {
-            case 'welcome':
-                return (
-                    <>
-                        <p className="bot-message">Hi, I'm {CHATBOT_NAME}, Mani's friend! 👋</p>
-                        <p className="bot-message">What do you want to know about my friend Mani?</p>
-                        <form onSubmit={handleSubmit} className="chat-form">
-                            <input
-                                type="text"
-                                value={userInput}
-                                onChange={handleChange}
-                                placeholder="Type your question here..."
-                                className="chat-input-field"
-                            />
-                            <button type="submit" className="chat-submit-btn">Send</button>
-                        </form>
-                    </>
-                );
-
-            case 'resume':
-                return (
-                    <>
-                        <p className="user-message">{submittedText}</p>
-                        <p className="bot-message bot-response-text">I can help you with Mani's resume!</p>
-                        <a
-                            href="/resume.pdf"
-                            download="Mani_Reddy.pdf"
-                            className="chat-btn-link"
-                            onClick={() => setStep('welcome')}
-                        >
-                            ⬇️ Download Mani's Resume
-                        </a>
-                        <button onClick={() => setStep('welcome')} className="chat-btn-back">Back to start</button>
-                    </>
-                );
-
-            case 'about':
-            case 'projects':
-            case 'skills':
-            case 'experience':
-            case 'contact':
-                const anchor = `#${step}`;
-                const responseContent = contentMap[step];
-                const showNavLink = step !== 'about';
-
-                return (
-                    <>
-                        <p className="user-message">{submittedText}</p>
-
-                        {/* Display the correct, long detailed answer */}
-                        <p className="bot-message bot-response-text">{responseContent}</p>
-
-                        {/* Display the navigation button if not 'about' */}
-                        {showNavLink && (
-                            <a
-                                href={anchor}
-                                className="chat-btn-link"
-                                onClick={handleCloseAndNavigate}
-                            >
-                                Click here to view {labelMap[step]} Page
-                            </a>
-                        )}
-
-                        <button onClick={() => setStep('welcome')} className="chat-btn-back">
-                            {step === 'about' ? 'Ask another question' : 'Back to start'}
-                        </button>
-                    </>
-                );
-
-            case 'unknown':
-                return (
-                    <>
-                        <p className="user-message">{submittedText}</p>
-                        <p className="bot-message bot-response-text">I'm sorry, I don't quite understand that question. Try asking about **resume, projects, skills, contact, or about Mani.**</p>
-                        <button onClick={() => setStep('welcome')} className="chat-btn-back">Try again</button>
-                    </>
-                );
-
-            default:
-                return <p className="bot-message">Error: Unknown step.</p>;
-        }
-    };
-
-    return (
-        <div className={`chat-box ${isOpen ? 'open' : 'closed'}`}>
-            <div className="chat-header">
-                <p>{CHATBOT_NAME} - Chatbot</p>
-                <button onClick={toggleChat} className="chat-close-btn">&times;</button>
-            </div>
-            {/* Scrollable chat body */}
-            <div className="chat-body">
-                {renderContent()}
-            </div>
+  // Render special content based on type
+  const renderSpecialContent = (contentType) => {
+    if (contentType === 'aboutMani') {
+      return (
+        <div className="about-mani-section">
+          <p>
+            <strong>🚀 Current Role:</strong>
+            Junior Engineer at Mindsprint, Chennai (Sept 2025 - Present). Building ASP.NET MVC apps, authentication systems, and NLP solutions!
+          </p>
+          <p>
+            <strong>💼 Internship:</strong>
+            Same company (Jan - Aug 2025). Worked on Treasury Bot - improved UX by 25% and automation speed by 60%!
+          </p>
+          <p>
+            <strong>🛠️ Top Skills:</strong>
+            Python (Expert), SQL, Power BI, React, JavaScript, Java, C#/.NET, Azure, OpenAI/AI, Flask, ASP.NET MVC
+          </p>
+          <p>
+            <strong>📊 Cool Projects:</strong>
+            Shopping analysis (3,900+ customers), Loan prediction ML, AI Chatbot with RAG, Tourist Management app
+          </p>
+          <p>
+            <strong>🎓 Education:</strong>
+            B.Tech CS from Amrita University (8.61 CGPA), 96.2% in 12th grade
+          </p>
         </div>
-    );
+      );
+    }
+
+    if (contentType === 'resume') {
+      return (
+        <div className="resume-section">
+          <p style={{ marginBottom: '10px' }}>
+            📄 Here's Mani's resume! Click below to download:
+          </p>
+          <a
+            href="/resume.pdf"
+            download="Mani_Shankar_Reddy_Resume.pdf"
+            className="action-btn resume-btn"
+          >
+            📥 Download Resume
+          </a>
+        </div>
+      );
+    }
+
+    if (contentType === 'contact') {
+      return (
+        <div className="contact-section">
+          <p style={{ marginBottom: '10px' }}>
+            📞 Here's how you can reach Mani:
+          </p>
+          <div className="contact-buttons">
+            <a
+              href="mailto:mani7204mani@gmail.com"
+              className="action-btn email-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ✉️ Email: mani7204mani@gmail.com
+            </a>
+            <a
+              href="https://linkedin.com/in/mani-shankar-reddy-56879627b"
+              className="action-btn linkedin-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              💼 LinkedIn Profile
+            </a>
+            <a
+              href="https://wa.me/916301585008"
+              className="action-btn whatsapp-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              💬 WhatsApp: +91 6301585008
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="chat-box">
+      <div className="chat-header">
+        <span>💬 Chat with Viva</span>
+        <button className="chat-close-btn" onClick={onClose} aria-label="Close chat">
+          ×
+        </button>
+      </div>
+
+      <div className="chat-body">
+        {messages.map((msg, index) => (
+          <div key={index} className={`message-wrapper ${msg.type}`}>
+            {msg.type === 'user' ? (
+              <div className="user-message">{msg.content}</div>
+            ) : msg.isSpecial ? (
+              <div className="bot-message">
+                {renderSpecialContent(msg.content)}
+              </div>
+            ) : (
+              <div className="bot-message">{msg.content}</div>
+            )}
+          </div>
+        ))}
+
+        {messages.length > 0 && messages[0].showQuickActions && messages.length === 1 && (
+          <div className="quick-actions">
+            <div className="quick-actions-label">Quick questions:</div>
+            <button className="quick-btn" onClick={() => handleQuickAction('Tell me about Mani')}>
+              👤 Tell me about Mani
+            </button>
+            <button className="quick-btn" onClick={() => handleQuickAction('Download resume')}>
+              📄 Download Resume
+            </button>
+            <button className="quick-btn" onClick={() => handleQuickAction('Contact details')}>
+              📞 Contact Details
+            </button>
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="message-wrapper bot">
+            <div className="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        )}
+
+        {messages.length > 2 && (
+          <button className="reset-chat-btn" onClick={handleReset}>
+            🔄 Start New Conversation
+          </button>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className="chat-input-container">
+        <form className="chat-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="chat-input-field"
+            placeholder="Ask me anything about Mani..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            disabled={isLoading}
+          />
+          <button type="submit" className="chat-submit-btn" disabled={isLoading || !inputValue.trim()}>
+            {isLoading ? '...' : 'Send'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default ChatInterface;

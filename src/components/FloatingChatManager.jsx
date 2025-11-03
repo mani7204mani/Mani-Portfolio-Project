@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import ChatInterface from './ChatInterface'; // 💡 NEW IMPORT 💡
-import '../styles/FloatingChatButton.css'; 
+import '../styles/FloatingChatManager.css'; 
 
 function FloatingChatManager() {
   const [isChatOpen, setIsChatOpen] = useState(false);

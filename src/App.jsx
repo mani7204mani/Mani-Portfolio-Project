@@ -1,13 +1,12 @@
-// src/App.jsx
+// src/App.jsx - COMPLETE UPDATED VERSION
 
 import React from 'react';
 import { useState } from 'react';
 import Header from './components/Header';
 import ProjectCard from './components/ProjectCard';
-// Ensure this import path is correct based on your file structure (src/styles/App.css or src/App.css)
-import SkillCard from './components/SkillCard'; // 💡 NEW IMPORT 💡
+import SkillCard from './components/SkillCard';
 import EducationCard from './components/EducationCard';
-import ExperienceCard from './components/ExperienceCard'; // 💡 NEW IMPORT 💡
+import ExperienceCard from './components/ExperienceCard';
 import Modal from './components/Modal'; 
 import SocialLinks from './components/SocialLinks'; 
 import FloatingChatManager from './components/FloatingChatManager';
@@ -40,6 +39,7 @@ const workExperienceData = [
     ]
   }
 ];
+
 const educationData = [
   {
     degree: "B.Tech. in Computer Science",
@@ -57,7 +57,7 @@ const educationData = [
     details: "Grade: 10/10"
   }
 ];
-// Sample data for your projects. Replace this with your actual portfolio items.
+
 const sampleProjects = [
   {
     title: "Customer Shopping Behavior Analysis",
@@ -84,20 +84,21 @@ const sampleProjects = [
     link: "https://example.com/chatbot"
   },
   {
-    "title": "Tourist Management System (TMS)",
-    "description": "A full-stack web application for managing tourist tours, handling user registrations (with email OTP verification), administering destinations (CRUD), processing tour bookings, and providing users with a comprehensive booking history. The system includes separate functionalities for public users and administrative staff.",
-    "technologies": [
-        "Python (Flask)",
-        "React.js (Frontend)",
-        "PostgreSQL (SQLAlchemy)",
-        "Flask-Bcrypt",
-        "Email Verification (SMTP)",
-        "RESTful APIs",
-        "OTP Authentication"
+    title: "Tourist Management System (TMS)",
+    description: "A full-stack web application for managing tourist tours, handling user registrations (with email OTP verification), administering destinations (CRUD), processing tour bookings, and providing users with a comprehensive booking history. The system includes separate functionalities for public users and administrative staff.",
+    technologies: [
+      "Python (Flask)",
+      "React.js (Frontend)",
+      "PostgreSQL (SQLAlchemy)",
+      "Flask-Bcrypt",
+      "Email Verification (SMTP)",
+      "RESTful APIs",
+      "OTP Authentication"
     ],
-    "link": "https://github.com/mani7204mani/tourist-management-system"
-}
+    link: "https://github.com/mani7204mani/tourist-management-system"
+  }
 ];
+
 const skillData = [
   { name: "Python", image: "python.svg" },
   { name: "OpenAI", image: "openai.svg" },
@@ -107,19 +108,20 @@ const skillData = [
   { name: "Java", image: "java.svg" },
   { name: "HTML5", image: "html5.svg" },
   { name: "CSS3", image: "css3.svg" },
-  { name: "React", image: "react.svg" }, // Use actual image paths (e.g., in /assets)
+  { name: "React", image: "react.svg" },
   { name: "JavaScript", image: "javascript.svg" },
   { name: "Azure", image: "azure.svg" },
   { name: ".NET", image: "dotnet.svg" },
   { name: "Git", image: "git.svg" },
   { name: "Flask", image: "flask.svg" },
-  // Add more skills to match the 10 boxes in your image
 ];
 
 function App() {
+  // State for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedExperience, setSelectedExperience] = useState(null);
 
+  // Modal handlers
   const openModal = (experience) => {
     setSelectedExperience(experience);
     setIsModalOpen(true);
@@ -129,70 +131,75 @@ function App() {
     setIsModalOpen(false);
     setSelectedExperience(null);
   };
+
   return (
     <div className="portfolio-container">
       {/* 1. Header Component (Navigation) */}
       <Header />
 
-      {/* 2. Hero Section (Home) - Target for #hero link */}
+      {/* 2. Hero Section (Home) */}
       <section id="hero" className="hero-section">
         <div className="hero-content">
-          {/* 💡 1. CIRCULAR IMAGE PLACEMENT 💡 */}
-          {/* Ensure 'profile.jpg' is in your /public folder */}
-          <img src="/profile.jpg" alt="Mani Reddy Professional Portrait" className="hero-profile-img-circle" />
+          <img 
+            src="/profile.jpg" 
+            alt="Mani Reddy Professional Portrait" 
+            className="hero-profile-img-circle" 
+          />
           
           <h1>Hi, I'm P.Mani Shankar Reddy.</h1>  
-          <p className="hero-subtitle">Innovative Software Engineer | .NET & Chatbot Developer | AI Enthusiast | Data Enthusiast</p>
+          <p className="hero-subtitle">
+            Innovative Software Engineer | .NET & Chatbot Developer | AI Enthusiast | Data Enthusiast
+          </p>
           <a 
-          href="https://wa.me/916301585008?text=Hello%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." 
-          target="_blank"             /* Opens the chat in a new tab/window */
-          rel="noopener noreferrer"   /* Security best practice for target="_blank" */
-          className="btn-primary large-btn"
-        >
-          Say Hello 👋
+            href="https://wa.me/916301585008?text=Hello%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project." 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary large-btn"
+          >
+            Say Hello 👋
           </a>
         </div>
       </section>
 
-      {/* 3. Experience Section - Target for #experience link */}
+      {/* 3. Experience Section */}
       <section id="experience" className="section-padding experience-section">
         <h2>Work Experience</h2>
-        <div className="experience-grid"> {/* 💡 NEW GRID CLASS */}
+        <div className="experience-grid">
           {workExperienceData.map((exp) => (
             <ExperienceCard 
               key={exp.id} 
               experience={exp}
-              openModal={openModal} /* Pass handler down */
+              openModal={openModal}
             />
           ))}
         </div>
       </section>
 
-      {/* 4. Projects Section - Target for #projects link */}
+      {/* 4. Projects Section */}
       <section id="projects" className="section-padding projects-section">
         <h2>Featured Projects</h2>
         <div className="projects-grid">
-          {/* Renders a ProjectCard component for each item in the sampleProjects array */}
           {sampleProjects.map((project, index) => (
             <ProjectCard key={index} {...project} />
           ))}
         </div>
       </section>
       
-      {/* 5. Skills Section - Target for #skills link */}
+      {/* 5. Skills Section */}
       <section id="skills" className="section-padding skills-section">
         <h2>Skills & Expertise</h2>
-        <div className="skills-grid-container"> {/* 💡 Use a NEW class name 💡 */}
+        <div className="skills-grid-container">
           {skillData.map((skill) => (
             <SkillCard 
               key={skill.name} 
               skillName={skill.name} 
-              // IMPORTANT: Images should be placed in the 'public' or 'src/assets' folder
               imageUrl={`${skill.image}`} 
             />
           ))}
         </div>
       </section>
+
+      {/* 6. Education Section */}
       <section id="education" className="section-padding education-section">
         <h2>Education</h2>
         <div className="education-grid">
@@ -204,18 +211,10 @@ function App() {
               details={item.details}
             />
           ))}
-          {/* 💡 MODAL COMPONENT 💡 */}
-      {selectedExperience && (
-        <Modal 
-          isOpen={isModalOpen} 
-          closeModal={closeModal} 
-          experience={selectedExperience} 
-        />
-      )}
         </div>
       </section>
 
-      {/* 6. Contact Section - Target for #contact link */}
+      {/* 7. Contact Section */}
       <section id="contact" className="section-padding contact-section">
         <h2>Get In Touch</h2>
         <p>I'm currently available for new opportunities. Feel free to reach out!</p>
@@ -224,10 +223,20 @@ function App() {
 
       {/* Footer */}
       <footer>
-        
         <p>Built with React & ❤️</p>
         <p>&copy; {new Date().getFullYear()} [Mani_Reddy]</p>
       </footer>
+
+      {/* Modal Component - Moved outside sections */}
+      {selectedExperience && (
+        <Modal 
+          isOpen={isModalOpen} 
+          closeModal={closeModal} 
+          experience={selectedExperience} 
+        />
+      )}
+
+      {/* Floating Chat Manager */}
       <FloatingChatManager />
     </div>
   );
